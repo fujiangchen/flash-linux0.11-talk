@@ -41,7 +41,7 @@ ENDSEG   = SYSSEG + SYSSIZE		; where to stop loading
 ; ROOT_DEV:	0x000 - same type of floppy as boot.
 ;		0x301 - first partition on first drive etc
 ROOT_DEV = 0x306
-
+; ds:数据段寄存器，在内存寻址时充当段基址 段基址计算地址时需要先左移4位   44-65
 entry start
 start:
 	mov	ax,#BOOTSEG
@@ -51,13 +51,14 @@ start:
 	mov	cx,#256
 	sub	si,si
 	sub	di,di
-	rep
-	movw
-	jmpi	go,INITSEG
-go:	mov	ax,cs
+	rep					; rep 重复执行 movw指令,重复 cx次->256次
+	movw				; 复制一个字(word 16位,相当于2个字节),从ds:si复制到es:si
+; rep movw 将0x7c00后512字节数据复制到0x90000
+	jmpi	go,INITSEG	; 跳转到0x9000:go 处执行(相当于0x90000+go)
+go:	mov	ax,cs			; cs表代码段寄存器 cs:ip表CPU正在执行的代码未知,当前cs值为0x9000, ip为go的偏移地址
 	mov	ds,ax
 	mov	es,ax
-; put stack at 0x9ff00.
+; put stack at 0x9ff00. 栈顶地址为ss:sp 
 	mov	ss,ax
 	mov	sp,#0xFF00		; arbitrary value >>512
 
