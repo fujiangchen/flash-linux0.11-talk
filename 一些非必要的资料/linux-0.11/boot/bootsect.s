@@ -41,7 +41,7 @@ ENDSEG   = SYSSEG + SYSSIZE		; where to stop loading
 ; ROOT_DEV:	0x000 - same type of floppy as boot.
 ;		0x301 - first partition on first drive etc
 ROOT_DEV = 0x306
-; ds:数据段寄存器，在内存寻址时充当段基址 段基址计算地址时需要先左移4位   44-65
+; ds:数据段寄存器，在内存寻址时充当段基址 段基址计算地址时需要先左移4位 
 entry start
 start:
 	mov	ax,#BOOTSEG
