@@ -65,7 +65,7 @@ go:	mov	ax,cs			; cs表代码段寄存器 cs:ip表CPU正在执行的代码未知
 ; load the setup-sectors directly after the bootblock.
 ; Note that 'es' is already set up.
 
-load_setup:
+load_setup:				;将硬盘的第二个扇区开始，把数据加载到内存0x90200处，共加载4个扇区
 	mov	dx,#0x0000		; drive 0, head 0
 	mov	cx,#0x0002		; sector 2, track 0
 	mov	bx,#0x0200		; address = 512, in INITSEG
